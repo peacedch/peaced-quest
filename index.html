@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peaced Quest</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #1a1a1a, #0b0b0b);
+      color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .title {
+      font-size: 34px;
+      text-align: center;
+      margin-bottom: 5px;
+      color: #d6b36a;
+    }
+
+    .subtitle {
+      text-align: center;
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.05);
+      padding: 16px;
+      border-radius: 16px;
+      margin-bottom: 12px;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      background: #d6b36a;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .quest {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .quest h2 {
+      margin-top: 0;
+      color: #f5d38a;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(214,179,106,0.2);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <div class="title">Peaced Quest</div>
+  <div class="subtitle">Eine Szene wartet.</div>
+
+  <div class="panel">
+    <label>Stimmung</label>
+    <select id="mood">
+      <option value="wild">wild</option>
+      <option value="mutig">mutig</option>
+      <option value="unsicher">unsicher</option>
+      <option value="neugierig">neugierig</option>
+      <option value="leer">leer</option>
+    </select>
+
+    <label>Weg</label>
+    <select id="path">
+      <option value="flow">Flow</option>
+      <option value="technik">Technik</option>
+      <option value="style">Style</option>
+      <option value="mut">Mut</option>
+      <option value="freeride">Freeride</option>
+    </select>
+
+    <button onclick="drawQuest()">Quest ziehen</button>
+  </div>
+
+  <div id="result"></div>
+</div>
+
+<script>
+const quests = [
+  {
+    title: "Die lautlose Linie",
+    path: "flow",
+    mood: "neugierig",
+    text: "Fahre heute drei Turns so ruhig wie möglich. Kein Druck, nur Gefühl."
+  },
+  {
+    title: "Der kleine Sprung",
+    path: "mut",
+    mood: "unsicher",
+    text: "Wiederhole ein kleines Feature mehrfach, bis es sich sicher anfühlt."
+  },
+  {
+    title: "Der freie Run",
+    path: "freeride",
+    mood: "wild",
+    text: "Fahre ohne Plan einen kompletten Run nur nach Gefühl."
+  },
+  {
+    title: "Die Körperlinie",
+    path: "technik",
+    mood: "leer",
+    text: "Achte nur auf deinen Körper. Keine Tricks, nur Haltung."
+  },
+  {
+    title: "Der Stilbruch",
+    path: "style",
+    mood: "mutig",
+    text: "Verändere bewusst deinen Stil in jedem Turn."
+  }
+];
+
+function drawQuest() {
+  const mood = document.getElementById("mood").value;
+  const path = document.getElementById("path").value;
+
+  let filtered = quests.filter(q => q.path === path || q.mood === mood);
+
+  if (filtered.length === 0) filtered = quests;
+
+  const q = filtered[Math.floor(Math.random() * filtered.length)];
+
+  document.getElementById("result").innerHTML = `
+    <div class="quest">
+      <h2>${q.title}</h2>
+      <div>${q.text}</div>
+      <div class="tag">Weg: ${q.path}</div>
+      <div class="tag">Stimmung: ${q.mood}</div>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
